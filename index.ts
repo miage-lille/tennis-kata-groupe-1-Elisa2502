@@ -1,5 +1,5 @@
-import { Player } from './types/player';
-import { Point, PointsData, Score } from './types/score';
+import { isSamePlayer, Player, Point } from './types/player';
+import { advantage, deuce, FortyData, game, PointsData, Score } from './types/score';
 // import { none, Option, some, match as matchOpt } from 'fp-ts/Option';
 // import { pipe } from 'fp-ts/lib/function';
 
@@ -21,30 +21,70 @@ export const otherPlayer = (player: Player) => {
       return 'PLAYER_ONE';
   }
 };
-// Exercice 1 :
-export const pointToString = (point: Point): string =>
-  'You can use pattern matching with switch case pattern.';
-
-export const scoreToString = (score: Score): string =>
-  'You can use pattern matching with switch case pattern.';
-
-export const scoreWhenDeuce = (winner: Player): Score => {
-  throw new Error('not implemented');
+// Exercise 1 :
+export const pointToString = (point: Point): string => {
+  switch (point.kind) {
+    case 'LOVE': {
+      return 'Love';
+    }
+    case 'FIFTEEN': {
+      return '15';
+    }
+    case 'THIRTY': {
+      return '30';
+    }
+    case 'FORTY': {
+      return '40';
+    }
+    default: {
+      return "Invalid";
+    }
+  }
 };
+
+export const scoreToString = (score: Score): string => {
+  switch(score.kind) {
+    case 'POINTS': {
+      const scoreP1 = score.pointsData.PLAYER_ONE;
+      const scoreP2 = score.pointsData.PLAYER_TWO;
+
+      return `${pointToString(scoreP1)} - ${pointToString(scoreP2)}`;
+    }
+    case 'FORTY': {
+      const scoreP2 = score.fortyData.otherPoint;
+      return `${score.fortyData.player} has 40 - ${pointToString(scoreP2)}`;
+    }
+    case 'DEUCE': {
+      return `Deuce`;
+    }
+    case 'ADVANTAGE': {
+      return `${score.player} has advantage`;
+    }
+    case 'GAME': {
+      return `Game won by ${score.player}`;
+    }
+    default: {
+      return 'Invalid';
+    }
+  }
+}
+  
+
+export const scoreWhenDeuce = (winner: Player): Score => advantage(winner);
 
 export const scoreWhenAdvantage = (
   advantagedPlayed: Player,
   winner: Player
 ): Score => {
-  throw new Error('not implemented');
+  if (isSamePlayer(advantagedPlayed, winner)) return game(winner);
+  return deuce();
 };
 
+
 export const scoreWhenForty = (
-  currentForty: unknown, // TO UPDATE WHEN WE KNOW HOW TO REPRESENT FORTY
+  currentForty: FortyData,
   winner: Player
-): Score => {
-  throw new Error('not implemented');
-};
+): Score => game(winner);
 
 export const scoreWhenGame = (winner: Player): Score => {
   throw new Error('not implemented');
