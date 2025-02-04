@@ -56,9 +56,12 @@ export type Forty = {
   fortyData: FortyData;
 };
 
-export const forty = (fortyData: FortyData): Forty => ({
+export const forty = (player: Player, otherPoint: Point): Forty => ({
   kind: 'FORTY',
-  fortyData: fortyData,
+  fortyData: {
+    player,
+    otherPoint
+  },
 });
 
 export type Advantage = {
