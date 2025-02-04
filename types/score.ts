@@ -1,7 +1,4 @@
-import { Player } from './player';
-
-// Surely not the best choice
-export type Point = number;
+import { Player, Point } from './player';
 
 export type PointsData = {
   PLAYER_ONE: Point;

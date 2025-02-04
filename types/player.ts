@@ -13,7 +13,11 @@ export type Thirty = {
     kind: 'THIRTY';
 };
 
-export type Point = Love | Fifteen | Thirty;
+type Forty = {
+    kind: 'FORTY';
+};
+
+export type Point = Love | Fifteen | Thirty  | Forty;
 
 export type PointsData = {
     playerOne: Point;
