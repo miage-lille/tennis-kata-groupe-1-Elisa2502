@@ -71,5 +71,6 @@ export const advantage = (player: Player): Advantage => ({
   player: player,
 });
 
+export const scoreWhenDeuce = (winner: Player): Score => advantage(winner);
 
-export type Score = Points | Game;
+export type Score = Points | Forty | Deuce | Advantage | Game;

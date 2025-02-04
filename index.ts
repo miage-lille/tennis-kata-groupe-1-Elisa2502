@@ -1,5 +1,5 @@
 import { Player, Point } from './types/player';
-import { PointsData, Score } from './types/score';
+import { advantage, PointsData, Score } from './types/score';
 // import { none, Option, some, match as matchOpt } from 'fp-ts/Option';
 // import { pipe } from 'fp-ts/lib/function';
 
@@ -21,7 +21,7 @@ export const otherPlayer = (player: Player) => {
       return 'PLAYER_ONE';
   }
 };
-// Exercice 1 :
+// Exercise 1 :
 export const pointToString = (point: Point): string => {
   switch (point.kind) {
     case 'LOVE': {
@@ -50,6 +50,16 @@ export const scoreToString = (score: Score): string => {
 
       return `${pointToString(scoreP1)} - ${pointToString(scoreP2)}`;
     }
+    case 'FORTY': {
+      const scoreP2 = score.fortyData.otherPoint;
+      return `${score.fortyData.player} has 40 - ${pointToString(scoreP2)}`;
+    }
+    case 'DEUCE': {
+      return `Deuce`;
+    }
+    case 'ADVANTAGE': {
+      return `${score.player} has advantage`;
+    }
     case 'GAME': {
       return `Game won by ${score.player}`;
     }
@@ -61,7 +71,7 @@ export const scoreToString = (score: Score): string => {
   
 
 export const scoreWhenDeuce = (winner: Player): Score => {
-  throw new Error('not implemented');
+  return advantage(winner);
 };
 
 export const scoreWhenAdvantage = (
